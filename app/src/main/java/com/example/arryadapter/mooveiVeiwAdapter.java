@@ -15,6 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class mooveiVeiwAdapter extends RecyclerView.Adapter <mooveiVeiwAdapter.VeiwHolder> {
 
+    private onMooveiClickLisiner myMooveiClickLisiner;
+    private LayoutInflater inflater;
+    private ArrayList<dataMoovei> mydata;
+
     @NonNull
     @Override
     public VeiwHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -34,16 +38,16 @@ public class mooveiVeiwAdapter extends RecyclerView.Adapter <mooveiVeiwAdapter.V
         return mydata.size();
     }
 
-    private LayoutInflater inflater;
-    private ArrayList<dataMoovei> mydata;
 
-    public mooveiVeiwAdapter (Context context, ArrayList<dataMoovei> data){
+
+    public mooveiVeiwAdapter (Context context, onMooveiClickLisiner mooveiClickLisiner ,ArrayList<dataMoovei> data){
+        myMooveiClickLisiner = mooveiClickLisiner;
         mydata=data;
         inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
 
-    public static class VeiwHolder extends RecyclerView.ViewHolder{
+    public class VeiwHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public ImageView imeg;
         public TextView titel;
@@ -51,6 +55,8 @@ public class mooveiVeiwAdapter extends RecyclerView.Adapter <mooveiVeiwAdapter.V
 
         public VeiwHolder(@NonNull View view) {
             super(view);
+            view.setOnClickListener(this);
+
             imeg = view.findViewById(R.id.ImageView);
             titel = view.findViewById(R.id.TextViewTitel);
             text = view.findViewById(R.id.TextViewText);
@@ -60,6 +66,13 @@ public class mooveiVeiwAdapter extends RecyclerView.Adapter <mooveiVeiwAdapter.V
             imeg.setImageResource(moovei.getImeg());
             titel.setText(moovei.getTitel());
             text.setText(moovei.getText());
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (myMooveiClickLisiner == null) return;
+            myMooveiClickLisiner.OnMooveiClicked(getAdapterPosition());
+
         }
     }
 }

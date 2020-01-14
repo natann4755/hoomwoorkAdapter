@@ -9,7 +9,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements onMooveiClickLisiner {
 
 
 
@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
          arryListMooveis();
         initrecyclerView();
+        MooveiFragment fragmentmoovei =new MooveiFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.AM_FrameLayout,fragmentmoovei).commit();
 
 
 
@@ -34,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
         myRecyclerView = findViewById(R.id.MA_rv);
         myLayoutManager = new LinearLayoutManager(this);
         myRecyclerView.setLayoutManager(myLayoutManager);
-        myAdepter = new mooveiVeiwAdapter(this, arryListMooveis());
+        myAdepter = new mooveiVeiwAdapter(this,this, arryListMooveis());
         myRecyclerView.setAdapter(myAdepter);
     }
 
-    private ArrayList arryListMooveis() {
+    static ArrayList arryListMooveis() {
         ArrayList<dataMoovei> arr = new ArrayList<dataMoovei>();
         arr.add(new dataMoovei("cars", "1",R.drawable.cars));
         arr.add(new dataMoovei("code", "2",R.drawable.code_8));
@@ -56,4 +58,11 @@ public class MainActivity extends AppCompatActivity {
         return arr;
     }
 
+    @Override
+    public void OnMooveiClicked(int itemPoshisen) {
+        MooveiFragment2 f2 = new MooveiFragment2();
+        getSupportFragmentManager().beginTransaction().replace(R.id.AM_FrameLayout,f2).commit();
+
+
+    }
 }
